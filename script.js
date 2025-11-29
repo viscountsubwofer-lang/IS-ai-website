@@ -1,4 +1,5 @@
-const API_URL = "https://hf.space/embed/tiiuae/falcon-7b-instruct/+/api/predict";
+const API_URL = "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-0.5B";
+const API_KEY = "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";  // 
 
 document.getElementById("sendBtn").onclick = async () => {
     const text = document.getElementById("inputText").value;
@@ -10,18 +11,21 @@ document.getElementById("sendBtn").onclick = async () => {
 
     document.getElementById("outputText").innerText = "AI sedang memproses...";
 
+    const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${API_KEY}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ inputs: text })
+    });
+
+    const result = await response.json();
+
     try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ data: [text] })
-        });
-
-        const result = await response.json();
-        const aiText = result.data[0];
-
+        const aiText = result[0].generated_text;
         document.getElementById("outputText").innerText = aiText;
     } catch (e) {
-        document.getElementById("outputText").innerText = "AI Error / terlalu banyak pengguna. Coba ulang.";
+        document.getElementById("outputText").innerText = "Terjadi error atau limit penuh.";
     }
 };

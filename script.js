@@ -1,5 +1,5 @@
-const API_URL = "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-0.5B";
-const API_KEY = "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";  // 
+const API_URL = "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-0.5B" ;
+const API_KEY = "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";  
 
 document.getElementById("sendBtn").onclick = async () => {
     const text = document.getElementById("inputText").value;
